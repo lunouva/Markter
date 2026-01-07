@@ -1,0 +1,12 @@
+# Website: Terms + 10-Day Results Assurance
+- Page headline: 10-Day Results Assurance, in plain English.
+- Body: The assurance is designed to reduce risk and make the first 10 days transparent and accountable.
+- Offer structure: First month of management is free; you only cover ad spend; there are no contracts or lock-ins during the assurance window.
+- Results definition: Engagement results include ad clicks, phone calls generated from ads, form submissions, direction or map interactions, and qualified on-site actions tied to campaign goals.
+- Results do not guarantee sales: The assurance does not promise purchases, revenue, or profit.
+- Window: Engagement results must occur within 10 calendar days of campaign launch.
+- Budget On Us: If engagement results do not occur within 10 days, we refund eligible ad spend used during the assurance window, capped at $1,500.
+- Eligibility: Account access provided within 24 hours, business phone and website live and reachable, minimum daily budget met as agreed during onboarding, and no client-caused outages, pauses, or interference.
+- Fair use: Non-viable or high-risk markets are reviewed case-by-case for assurance eligibility.
+- If you continue after a refund: You may do so freely; refunded spend is treated as goodwill and extended runway; no penalties or resets.
+- CTA: Book a growth call.

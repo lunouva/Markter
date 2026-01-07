@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact - Markter</title>
+  <meta name="description" content="Book a growth call. 10-Day Results Assurance included." />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body class="page">
+  <header>
+    <div class="container nav">
+      <a class="logo" href="index.html">Markter</a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="results.html">Results</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <button class="mobile-toggle" data-nav-toggle>Menu</button>
+      <div class="nav-actions">
+        <a class="btn btn-outline" href="tel:+13125550186">Call now</a>
+        <a class="btn btn-primary" href="contact.html">Book a growth call</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="container hero">
+      <div class="reveal">
+        <div class="kicker">Book a growth call</div>
+        <h1>Let's make your next 90 days obvious.</h1>
+        <p>One working session to map your funnel and quick wins. If it's a fit, we'll outline a plan and timeline.</p>
+        <div class="nav-actions">
+          <a class="btn btn-primary" href="tel:+13125550186">Call now</a>
+          <a class="btn btn-outline" href="terms.html">View Terms + 10-Day Results Assurance</a>
+        </div>
+      </div>
+      <div class="assurance-card reveal">
+        <div class="pill">10-Day Results Assurance</div>
+        <h3>First month of management is free.</h3>
+        <p>You cover ad spend only; no lock-ins during the assurance window.</p>
+        <p>To keep the 10-day window on track, we confirm access and go-live details right after this booking.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-title reveal">
+          <h2>Schedule your session.</h2>
+          <p>Takes 60 seconds. We confirm by phone or email within one business hour.</p>
+        </div>
+        <form class="form reveal" action="/lead" method="post">
+          <div class="field">
+            <label for="business">Business name</label>
+            <input id="business" name="business" type="text" required />
+          </div>
+          <div class="field">
+            <label for="name">Your name</label>
+            <input id="name" name="name" type="text" required />
+          </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" type="tel" required />
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required />
+          </div>
+          <div class="field">
+            <label for="type">Business type</label>
+            <input id="type" name="business_type" type="text" required />
+          </div>
+          <div class="field">
+            <label for="locations">Locations</label>
+            <input id="locations" name="locations" type="number" min="1" required />
+          </div>
+          <div class="field">
+            <label for="spend">Current ad spend</label>
+            <input id="spend" name="ad_spend" type="text" required />
+          </div>
+          <div class="field">
+            <label for="urgency">Urgency</label>
+            <select id="urgency" name="urgency" required>
+              <option value="move-quickly">Move quickly</option>
+              <option value="steady">Steady timeline</option>
+              <option value="exploring">Exploring</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="window">We can get this set up this week - do mornings or afternoons work better?</label>
+            <select id="window" name="time_window" required>
+              <option value="morning">Morning</option>
+              <option value="afternoon">Afternoon</option>
+            </select>
+          </div>
+          <div class="notice">TCPA-compliant call and text consent on submit. Your info is encrypted, never sold, and access-logged.</div>
+          <button class="btn btn-primary" type="submit">Book now</button>
+          <div class="notice">We can do Tuesday at 11:30 or Thursday at 2:00. If you prefer a specific window, note it in your reply.</div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div class="action-bar">
+    <div class="container">
+      <div class="action-text">We start with the 10-Day Results Assurance. First month of management free. Ad spend only.</div>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <a class="btn btn-outline" href="tel:+13125550186">Call now</a>
+        <a class="btn btn-primary" href="contact.html">Book a growth call</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <strong>Markter</strong>
+        <p>212 W Madison St, Chicago, IL 60606</p>
+        <p><a href="tel:+13125550186">312-555-0186</a> | <a href="mailto:hello@markter.co">hello@markter.co</a></p>
+        <p>Mon-Fri 8:30a-6p CT</p>
+      </div>
+      <div>
+        <strong>Explore</strong>
+        <p><a href="services.html">Services</a></p>
+        <p><a href="results.html">Results</a></p>
+      </div>
+      <div>
+        <strong>Trust</strong>
+        <p><a href="privacy.html">Privacy</a></p>
+        <p><a href="terms.html">Terms + 10-Day Results Assurance</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>

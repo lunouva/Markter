@@ -1,0 +1,6 @@
+# Website: Delivery Ads + Optimization
+- Hero. Headline: More delivery orders, better margins. Subhead: We tune your listings and ads where the orders actually happen. Body: Uber Eats and DoorDash campaign management, menu optimization, and AOV lifts. CTA: Book a growth call. UX intent: Clarity.
+- Process. Headline: Fix the listing, then scale. Subhead: Ads only work when the menu converts. Body: Listing cleanup, menu structure, photo guidance, and bid tuning. CTA: See the workflow. UX intent: Show competence.
+- Results. Headline: Consistent order growth. Subhead: Reliable, compounding gains. Body: Average 18-35% order lift in the first 60 days for multi-store brands. CTA: Talk to a strategist. UX intent: Motivation.
+- Safeguards. Headline: Access you can trust. Subhead: Least-privilege partner access only. Body: Role-based access, short-lived tokens, and change logs for all listing edits. CTA: Book a growth call. UX intent: Security + trust.
+- Assurance callout. Headline: 10-Day Results Assurance for delivery ads. Subhead: Proof-before-payment management. Body: First month of management is free; you only cover ad spend; no lock-ins during the assurance window. CTA: Activate the assurance. UX intent: Reduce risk.

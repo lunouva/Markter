@@ -1,0 +1,13 @@
+# CRM Structure and UX
+- Objects: Lead, Conversation, Call, Appointment, Campaign, Task, Consent Record.
+- Lead fields: source, business type, locations, urgency, budget range, owner status, last touch, next action.
+- Conversation fields: channel, transcript, sentiment tag, outcome.
+- Call fields: recording link, disposition, callback flag, TCPA consent.
+- Appointment fields: date/time, owner, status, notes.
+- Status pipeline: New -> Contacted -> Qualified -> Booked -> Active -> Won/Lost -> Nurture.
+- Timeline view: every event in order with source labels and next action pinned.
+- Daily view: "Today's Calls," "Overdue Follow-ups," "Booked This Week."
+- Automations: duplicate detection by phone/email; auto-close after 30 days of inactivity; escalation to manager after two missed follow-ups.
+- Security embedded: role-based access, field-level masking, audit trails on edits and exports, encryption at rest/in transit, short-lived session tokens, IP allowlist option, consent log immutable.
+- Assurance fields: assurance status, assurance window start/end, primary engagement goal, engagement signals log, eligibility checklist, refund cap, results achieved flag, refund decision.
+- Assurance automations: day-7 and day-10 alerts, auto-create refund review task if no engagement signals logged, manager approval required to finalize refunds.
