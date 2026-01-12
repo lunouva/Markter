@@ -1,0 +1,15 @@
+{
+  "name": "markter",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Markter marketing site with chatbot and admin CRM",
+  "scripts": {
+    "format": "echo \"No formatter configured\"",
+    "migrate": "psql $env:DATABASE_URL -f db/migrations/001_init.sql"
+  },
+  "dependencies": {
+    "jwks-rsa": "3.1.0",
+    "jsonwebtoken": "9.0.2",
+    "pg": "8.11.5"
+  }
+}

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Markter Admin</title>
+  <meta name="description" content="Markter private admin panel" />
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body class="page admin-page">
+  <header class="admin-header">
+    <div class="container admin-header-inner">
+      <div>
+        <strong>Markter Ops</strong>
+        <span>Private admin CRM</span>
+      </div>
+      <div class="admin-user">
+        <span id="admin-user-email"></span>
+        <button class="btn btn-outline" id="admin-logout">Log out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container admin-shell">
+    <section id="admin-auth" class="admin-card">
+      <h2>Admin access</h2>
+      <p>Invite-only login required.</p>
+      <button class="btn btn-primary" id="admin-login">Log in with Netlify Identity</button>
+      <div id="admin-access-denied" class="admin-alert is-hidden">Access denied. This account does not have admin permissions.</div>
+    </section>
+
+    <section id="admin-app" class="is-hidden">
+      <nav class="admin-nav">
+        <button class="admin-tab is-active" data-view="pipeline">Pipeline</button>
+        <button class="admin-tab" data-view="lead">Lead detail</button>
+        <button class="admin-tab" data-view="templates">Templates</button>
+        <button class="admin-tab" data-view="audit">Audit log</button>
+      </nav>
+
+      <section id="view-pipeline" class="admin-view">
+        <div class="admin-view-header">
+          <h2>Lead pipeline</h2>
+          <button class="btn btn-outline" id="refresh-leads">Refresh</button>
+        </div>
+        <div id="pipeline-board" class="pipeline-board"></div>
+      </section>
+
+      <section id="view-lead" class="admin-view is-hidden">
+        <div id="lead-empty" class="admin-card">Select a lead to view details.</div>
+        <div id="lead-detail" class="is-hidden"></div>
+      </section>
+
+      <section id="view-templates" class="admin-view is-hidden">
+        <div class="admin-view-header">
+          <h2>Templates</h2>
+          <button class="btn btn-outline" id="refresh-templates">Refresh</button>
+        </div>
+        <div class="template-grid">
+          <form id="template-form" class="admin-card">
+            <h3>Create new template</h3>
+            <label>Template key
+              <input type="text" name="template_key" placeholder="new_lead" required />
+            </label>
+            <label>Name
+              <input type="text" name="name" placeholder="New lead confirmation" required />
+            </label>
+            <label>Channel
+              <select name="channel" required>
+                <option value="sms">SMS</option>
+                <option value="email">Email</option>
+              </select>
+            </label>
+            <label>Subject (email only)
+              <input type="text" name="subject" placeholder="Your Markter growth call" />
+            </label>
+            <label>Body
+              <textarea name="body" rows="6" required></textarea>
+            </label>
+            <label class="checkbox-row">
+              <input type="checkbox" name="active" /> Set active
+            </label>
+            <button class="btn btn-primary" type="submit">Save template</button>
+          </form>
+          <div class="admin-card">
+            <h3>Template versions</h3>
+            <div id="template-list" class="template-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-audit" class="admin-view is-hidden">
+        <div class="admin-view-header">
+          <h2>Audit log</h2>
+          <button class="btn btn-outline" id="refresh-audit">Refresh</button>
+        </div>
+        <div id="audit-list" class="admin-card"></div>
+      </section>
+    </section>
+  </main>
+
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
