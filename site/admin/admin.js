@@ -362,13 +362,37 @@ function initIdentity() {
 
   netlifyIdentity.init({ allowSignup: false });
 
-  netlifyIdentity.on('login', async (user) => {
-    state.token = user.token.access_token;
+  const handleIdentity = async (user) => {
+    if (!user) {
+      state.token = null;
+      state.user = null;
+      showAuth();
+      return;
+    }
+
+    try {
+      state.token = await user.jwt();
+    } catch (error) {
+      state.token = null;
+      state.user = null;
+      showAuth();
+      return;
+    }
+
     state.user = user;
-    await loadWhoami();
+    const data = await loadWhoami();
+    if (!data) {
+      return;
+    }
     await loadLeads();
     await loadTemplates();
     await loadAudit();
+  };
+
+  netlifyIdentity.on('init', handleIdentity);
+
+  netlifyIdentity.on('login', async (user) => {
+    await handleIdentity(user);
     netlifyIdentity.close();
   });
 
@@ -377,21 +401,6 @@ function initIdentity() {
     state.user = null;
     showAuth();
   });
-
-  const currentUser = netlifyIdentity.currentUser();
-  if (currentUser) {
-    state.token = currentUser.token.access_token;
-    state.user = currentUser;
-    loadWhoami().then(async (data) => {
-      if (data) {
-        await loadLeads();
-        await loadTemplates();
-        await loadAudit();
-      }
-    });
-  } else {
-    showAuth();
-  }
 }
 
 function bindEvents() {
