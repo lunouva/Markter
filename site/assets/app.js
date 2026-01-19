@@ -1,3 +1,38 @@
+const tokenKeys = [
+  'recovery_token',
+  'invite_token',
+  'confirmation_token',
+  'access_token',
+  'token_type',
+  'expires_in'
+];
+
+const hasTokenParams = (params) => tokenKeys.some((key) => params.has(key));
+
+const hashParams = new URLSearchParams(window.location.hash.slice(1));
+const searchParams = new URLSearchParams(window.location.search);
+
+const hashHasTokens = hasTokenParams(hashParams);
+const searchHasTokens = hasTokenParams(searchParams);
+
+if (hashHasTokens || searchHasTokens) {
+  const combinedParams = new URLSearchParams();
+  if (hashHasTokens) {
+    hashParams.forEach((value, key) => {
+      combinedParams.append(key, value);
+    });
+  }
+  if (searchHasTokens) {
+    tokenKeys.forEach((key) => {
+      searchParams.getAll(key).forEach((value) => {
+        combinedParams.append(key, value);
+      });
+    });
+  }
+  const redirectHash = combinedParams.toString() ? `#${combinedParams.toString()}` : '';
+  window.location.replace(`/admin${redirectHash}`);
+}
+
 const navToggle = document.querySelector('[data-nav-toggle]');
 const navLinks = document.querySelector('.nav-links');
 
