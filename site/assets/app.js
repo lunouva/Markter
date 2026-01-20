@@ -64,3 +64,60 @@ if (revealItems.length) {
 
   revealItems.forEach((item) => observer.observe(item));
 }
+
+const leadForm = document.querySelector('[data-lead-form]');
+if (leadForm) {
+  const successMessage = leadForm.querySelector('.form-success');
+  const errorMessage = leadForm.querySelector('.form-error');
+  const submitButton = leadForm.querySelector('button[type=\"submit\"]');
+  const originalButtonText = submitButton ? submitButton.textContent : '';
+
+  leadForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    leadForm.classList.remove('is-success', 'is-error');
+    if (errorMessage) {
+      errorMessage.textContent = '';
+    }
+
+    if (!leadForm.checkValidity()) {
+      leadForm.reportValidity();
+      return;
+    }
+
+    const formData = new FormData(leadForm);
+    const payload = Object.fromEntries(formData.entries());
+
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = 'Sending...';
+    }
+
+    try {
+      const response = await fetch(leadForm.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error('Submission failed');
+      }
+
+      leadForm.reset();
+      leadForm.classList.add('is-success');
+      if (successMessage) {
+        successMessage.textContent = 'Thanks! Your plan is on the way. We will reach out shortly.';
+      }
+    } catch (error) {
+      leadForm.classList.add('is-error');
+      if (errorMessage) {
+        errorMessage.textContent = 'Something went wrong. Please try again or email hello@markter.co.';
+      }
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
+      }
+    }
+  });
+}
