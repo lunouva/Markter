@@ -1,0 +1,9 @@
+Command log (external research attempts):
+- curl -L https://www.shopify.com/blog/color-psychology-branding | head -n 20
+  Result: CONNECT tunnel failed, response 403.
+- curl -L https://en.wikipedia.org/wiki/Color_psychology | head -n 20
+  Result: CONNECT tunnel failed, response 403.
+- curl -A 'Mozilla/5.0' -L https://r.jina.ai/http://en.wikipedia.org/wiki/Color_psychology | head -n 20
+  Result: CONNECT tunnel failed, response 403.
+- curl -L http://example.com | head -n 5
+  Result: Domain forbidden.
