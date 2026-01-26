@@ -82,38 +82,53 @@ if (leadForm) {
     statusEl.textContent = '';
 
     const formData = new FormData(leadForm);
-    const businessName = String(formData.get('business') || '').trim();
-    const adSpend = String(formData.get('ad_spend') || '').trim();
-    const locationsValue = Number.parseInt(formData.get('locations'), 10);
+    const websiteUrl = String(formData.get('website_url') || '').trim();
+    const companyName = String(formData.get('company') || '').trim();
+    const serviceName = String(formData.get('service') || '').trim();
+    const notes = String(formData.get('notes') || '').trim();
+    const hpValue = String(formData.get('hp') || '').trim();
 
     const tags = ['contact_form'];
-    if (businessName) {
-      tags.push(`business:${businessName}`);
+    if (websiteUrl) {
+      tags.push(`website:${websiteUrl}`);
     }
-    if (adSpend) {
-      tags.push(`ad_spend:${adSpend}`);
+    if (companyName) {
+      tags.push(`company:${companyName}`);
+    }
+    if (serviceName) {
+      tags.push(`service:${serviceName}`);
     }
 
     const transcript = [];
-    if (businessName) {
-      transcript.push({ role: 'form', text: `Business name: ${businessName}` });
+    if (websiteUrl) {
+      transcript.push({ role: 'form', text: `Website URL: ${websiteUrl}` });
     }
-    if (adSpend) {
-      transcript.push({ role: 'form', text: `Current ad spend: ${adSpend}` });
+    if (companyName) {
+      transcript.push({ role: 'form', text: `Company / Business: ${companyName}` });
+    }
+    if (serviceName) {
+      transcript.push({ role: 'form', text: `Service interest: ${serviceName}` });
+    }
+    if (notes) {
+      transcript.push({ role: 'form', text: `Notes: ${notes}` });
     }
 
     const payload = {
       name: String(formData.get('name') || '').trim(),
       phone: String(formData.get('phone') || '').trim(),
       email: String(formData.get('email') || '').trim(),
-      business_type: String(formData.get('business_type') || '').trim(),
-      service_area: String(formData.get('service_area') || '').trim(),
+      company: companyName,
+      website_url: websiteUrl,
+      service: serviceName,
+      notes,
+      business_type: '',
+      service_area: '',
       goal: 'growth call',
       platforms: [],
-      locations_count: Number.isNaN(locationsValue) ? null : locationsValue,
+      locations_count: null,
       weekly_volume: null,
-      urgency: String(formData.get('urgency') || '').trim(),
-      callback_window: String(formData.get('time_window') || '').trim(),
+      urgency: '',
+      callback_window: '',
       consent_flag: true,
       source_page: window.location.pathname,
       utm_source: searchParams.get('utm_source'),
@@ -124,7 +139,7 @@ if (leadForm) {
       gclid: searchParams.get('gclid'),
       transcript,
       tags,
-      hp: ''
+      hp: hpValue
     };
 
     if (submitButton) {

@@ -14,7 +14,7 @@
 - Tagline: More calls, more orders, less chaos.
 - Core promise: We handle the complexity so owners don't have to.
 - Voice: confident, straight-talking, calm urgency, zero hype.
-- Primary CTA: Book a growth call
+- Primary CTA: Get Your Free Consultation Now
 - Named offer: 10-Day Results Assurance
 
 ## Website: Global Elements
@@ -88,13 +88,17 @@
 - Values. Headline: Clarity, speed, accountability. Subhead: We do what we say, and measure what matters. Body: Every action is logged; every lead has a next step. CTA: Talk to us. UX intent: Align expectations.
 - Assurance principle. Headline: Proof-first partnerships. Subhead: No lock-ins during the assurance window. Body: The 10-day standard keeps us accountable and keeps you in control. CTA: Start with the assurance. UX intent: Trust.
 
-## Website: Contact / Book a Growth Call
-- Hero. Headline: Let's make your next 90 days obvious. Subhead: One working session to map your funnel and quick wins. Body: If it's a fit, we'll outline a plan and timeline. CTA: Book a growth call | Call now. UX intent: Convert.
-- Booking form copy. Headline: Schedule your session. Subhead: Takes 60 seconds. Body: We confirm by phone or email within one business hour. CTA: Book now. UX intent: Reduce friction.
-- Form fields: Business name, your name, phone, email, business type, locations, current ad spend, urgency.
-- Security microcopy: Your info is encrypted, never sold, and access-logged. TCPA-compliant call and text consent on submit.
-- Assurance microcopy: We start with the 10-Day Results Assurance. First month of management is free; you cover ad spend only; no lock-ins during the assurance window. CTA: Start with the assurance. UX intent: Reduce decision friction.
-- Assurance activation note: To keep the 10-day window on track, we confirm access and go-live details right after this booking. UX intent: Set expectation without pressure.
+## Website: Contact / Free Consultation
+- Hero. Headline: Tell us where you want growth. Subhead: One short intake for a clear plan and timeline. Body: 10-Day Results Assurance included. CTA: Get Your Free Consultation Now | Call now. UX intent: Convert.
+- Form intro. Headline: Get your consultation. Subhead: Takes about 60 seconds. Body: We respond within one business hour. CTA: Get Your Free Consultation Now. UX intent: Reduce friction.
+- Form fields: Website URL, Company/Business, Select Service, Notes (optional), Name, Email, Phone.
+- Security microcopy: We never sell your data. Every submission is encrypted and access-logged.
+- Assurance microcopy: 10-Day Results Assurance included (first month of management free; ad spend only; no lock-ins during the assurance window). UX intent: Reduce decision friction.
+
+## Contact Form Payload Mapping
+- Required contact fields: name, email, phone.
+- Lead payload fields: website_url, company, service, notes.
+- Tags + transcript: include website URL, company, selected service, and notes.
 
 ## Website: Privacy & Data Use
 - Page headline: Privacy built in, not bolted on.
