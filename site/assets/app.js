@@ -64,3 +64,95 @@ if (revealItems.length) {
 
   revealItems.forEach((item) => observer.observe(item));
 }
+
+const leadForm = document.querySelector('[data-lead-form]');
+if (leadForm) {
+  let statusEl = leadForm.querySelector('.form-status');
+  if (!statusEl) {
+    statusEl = document.createElement('div');
+    statusEl.className = 'notice form-status';
+    statusEl.setAttribute('role', 'status');
+    leadForm.appendChild(statusEl);
+  }
+
+  const submitButton = leadForm.querySelector('button[type="submit"]');
+
+  leadForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    statusEl.textContent = '';
+
+    const formData = new FormData(leadForm);
+    const businessName = String(formData.get('business') || '').trim();
+    const adSpend = String(formData.get('ad_spend') || '').trim();
+    const locationsValue = Number.parseInt(formData.get('locations'), 10);
+
+    const tags = ['contact_form'];
+    if (businessName) {
+      tags.push(`business:${businessName}`);
+    }
+    if (adSpend) {
+      tags.push(`ad_spend:${adSpend}`);
+    }
+
+    const transcript = [];
+    if (businessName) {
+      transcript.push({ role: 'form', text: `Business name: ${businessName}` });
+    }
+    if (adSpend) {
+      transcript.push({ role: 'form', text: `Current ad spend: ${adSpend}` });
+    }
+
+    const payload = {
+      name: String(formData.get('name') || '').trim(),
+      phone: String(formData.get('phone') || '').trim(),
+      email: String(formData.get('email') || '').trim(),
+      business_type: String(formData.get('business_type') || '').trim(),
+      service_area: String(formData.get('service_area') || '').trim(),
+      goal: 'growth call',
+      platforms: [],
+      locations_count: Number.isNaN(locationsValue) ? null : locationsValue,
+      weekly_volume: null,
+      urgency: String(formData.get('urgency') || '').trim(),
+      callback_window: String(formData.get('time_window') || '').trim(),
+      consent_flag: true,
+      source_page: window.location.pathname,
+      utm_source: searchParams.get('utm_source'),
+      utm_medium: searchParams.get('utm_medium'),
+      utm_campaign: searchParams.get('utm_campaign'),
+      utm_term: searchParams.get('utm_term'),
+      utm_content: searchParams.get('utm_content'),
+      gclid: searchParams.get('gclid'),
+      transcript,
+      tags,
+      hp: ''
+    };
+
+    if (submitButton) {
+      submitButton.disabled = true;
+    }
+
+    try {
+      const response = await fetch('/api/lead', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        statusEl.textContent = 'Something went wrong. Please call or try again.';
+        return;
+      }
+
+      leadForm.reset();
+      statusEl.textContent = 'Thanks. We will confirm within one business hour.';
+    } catch (error) {
+      statusEl.textContent = 'Something went wrong. Please call or try again.';
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+      }
+    }
+  });
+}

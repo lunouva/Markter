@@ -1,5 +1,14 @@
 # Markter
 
+## Deployment & Setup
+- Required env vars: DATABASE_URL, DATABASE_SSL, IP_HASH_SALT, RATE_LIMIT_WINDOW_MIN, RATE_LIMIT_MAX, TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_FROM, POSTMARK_SERVER_TOKEN, EMAIL_FROM, FOLLOWUP_HOURS.
+- Optional provider selectors: SMS_PROVIDER (defaults to twilio), EMAIL_PROVIDER (defaults to postmark).
+- Initialize the database:
+  - `psql "$DATABASE_URL" -f db/migrations/001_init.sql`
+- Local dev (Netlify functions + site):
+  - Install the Netlify CLI if needed: `npm i -g netlify-cli`
+  - Run: `netlify dev` (or `npx netlify dev`)
+
 ## Brand System
 - Name: Markter
 - Tagline: More calls, more orders, less chaos.
