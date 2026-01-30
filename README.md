@@ -1,3 +1,8 @@
+## Start here
+- `START_HERE.md` (overview, key paths, local run)
+- `MASTER_PLAN.md` (full plan + backlog)
+- One-liner: Marketing site + Netlify Functions backend + /admin CRM. Local dev: `netlify dev` (or `npx netlify dev`).
+
 # Markter
 
 ## Deployment & Setup

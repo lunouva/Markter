@@ -1,5 +1,7 @@
 # Markter — Ready-to-Use TODO
 
+> Master plan: see `MASTER_PLAN.md`
+
 ## A) Launch basics (public site)
 - [ ] Confirm all pages render: `site/index.html`, `services.html`, `results.html`, `about.html`, `contact.html`, `chatbot.html`, `privacy.html`, `terms.html`
 - [ ] Verify nav links + CTAs ("Book a growth call", "Call now") are correct everywhere
