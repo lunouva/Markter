@@ -67,6 +67,49 @@ if (revealItems.length) {
 
 const leadForm = document.querySelector('[data-lead-form]');
 if (leadForm) {
+  // Personalize the contact page based on intent query param.
+  // Examples:
+  //  - /contact?intent=service (default)
+  //  - /contact?intent=hobby
+  //  - /contact?intent=pro
+  const intent = String(searchParams.get('intent') || '').trim().toLowerCase();
+  if (intent) {
+    const hero = document.querySelector('.hero');
+    const kickerEl = hero?.querySelector('.kicker');
+    const h1El = hero?.querySelector('h1');
+    const pEl = hero?.querySelector('p');
+    const submitBtn = leadForm.querySelector('button[type="submit"]');
+    const assuranceCard = hero?.querySelector('.assurance-card');
+
+    // Default form select value to avoid friction when the user just wants "Start free".
+    const serviceSelect = leadForm.querySelector('select[name="service"]');
+
+    if ((intent === 'hobby' || intent === 'pro') && serviceSelect && !serviceSelect.value) {
+      // Pick a reasonable default so the required field doesn't block the wedge CTA.
+      // (User can still change it.)
+      const fallback = Array.from(serviceSelect.options).find((opt) =>
+        String(opt.value).toLowerCase().includes('not sure')
+      );
+      if (fallback) serviceSelect.value = fallback.value;
+    }
+
+    if (intent === 'hobby') {
+      if (kickerEl) kickerEl.textContent = 'Start free (Hobby)';
+      if (h1El) h1El.textContent = 'Get your lead inbox set up in a day.';
+      if (pEl) pEl.textContent = 'Answer a few questions and we’ll provision your invite-only access, connect your form, and confirm leads land in your inbox.';
+      if (submitBtn) submitBtn.textContent = 'Request Hobby access';
+      if (assuranceCard) assuranceCard.style.display = 'none';
+    } else if (intent === 'pro') {
+      if (kickerEl) kickerEl.textContent = 'Request Pro access';
+      if (h1El) h1El.textContent = 'Turn leads into booked jobs faster with SMS follow-up.';
+      if (pEl) pEl.textContent = 'Tell us what you sell and where you operate. We’ll confirm fit and provision Pro (invite-only) with consent-friendly texting.';
+      if (submitBtn) submitBtn.textContent = 'Request Pro access';
+      if (assuranceCard) assuranceCard.style.display = 'none';
+    } else if (intent === 'service') {
+      // Keep default service copy.
+    }
+  }
+
   let statusEl = leadForm.querySelector('.form-status');
   if (!statusEl) {
     statusEl = document.createElement('div');
