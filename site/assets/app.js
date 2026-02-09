@@ -88,7 +88,12 @@ if (leadForm) {
     const notes = String(formData.get('notes') || '').trim();
     const hpValue = String(formData.get('hp') || '').trim();
 
+    const intent = String(searchParams.get('intent') || '').trim().toLowerCase();
+
     const tags = ['contact_form'];
+    if (intent) {
+      tags.push(`intent:${intent}`);
+    }
     if (websiteUrl) {
       tags.push(`website:${websiteUrl}`);
     }
@@ -113,6 +118,8 @@ if (leadForm) {
       transcript.push({ role: 'form', text: `Notes: ${notes}` });
     }
 
+    const goal = intent === 'hobby' ? 'start free' : intent === 'pro' ? 'pro access' : 'growth call';
+
     const payload = {
       name: String(formData.get('name') || '').trim(),
       phone: String(formData.get('phone') || '').trim(),
@@ -123,7 +130,7 @@ if (leadForm) {
       notes,
       business_type: '',
       service_area: '',
-      goal: 'growth call',
+      goal,
       platforms: [],
       locations_count: null,
       weekly_volume: null,
