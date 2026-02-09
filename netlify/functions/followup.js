@@ -80,6 +80,11 @@ exports.handler = async () => {
 
     return { statusCode: 200, body: 'ok' };
   } catch (error) {
+    console.error('followup_error', {
+      message: error && error.message,
+      code: error && error.code,
+      stack: error && error.stack
+    });
     return { statusCode: 500, body: 'error' };
   }
 };

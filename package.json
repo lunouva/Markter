@@ -5,6 +5,7 @@
   "description": "Markter marketing site with chatbot and admin CRM",
   "scripts": {
     "format": "echo \"No formatter configured\"",
+    "check": "node --check netlify/functions/lead.js && node --check netlify/functions/followup.js && node --check netlify/functions/lib/db.js && node --check netlify/functions/lib/events.js && node --check netlify/functions/lib/messaging.js && node --check netlify/functions/lib/security.js && node --check netlify/functions/lib/templates.js && node --check netlify/functions/lib/utils.js",
     "migrate": "psql \"$DATABASE_URL\" -f db/migrations/001_init.sql"
   },
   "dependencies": {

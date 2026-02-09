@@ -187,6 +187,17 @@ exports.handler = async (event) => {
 
     return jsonResponse(201, { lead_id: result.lead.id });
   } catch (error) {
-    return jsonResponse(500, { error: 'Server error' });
+    const requestId =
+      (event && event.headers && (event.headers['x-nf-request-id'] || event.headers['X-Nf-Request-Id'])) ||
+      null;
+
+    console.error('lead_error', {
+      requestId,
+      message: error && error.message,
+      code: error && error.code,
+      stack: error && error.stack
+    });
+
+    return jsonResponse(500, { error: 'Server error', request_id: requestId });
   }
 };
