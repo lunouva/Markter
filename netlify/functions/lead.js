@@ -15,13 +15,17 @@ function isValidPhone(phone) {
 }
 
 function sanitizeLead(payload) {
+  // Accept both the "chatbot" payload fields and the simpler contact form fields.
+  // Contact form uses: company, website_url, service, notes.
+  // We persist those primarily into transcript/tags, and also map company → business_type
+  // so the admin list has immediate context.
   return {
     name: cleanText(payload.name, 120),
     phone: cleanText(payload.phone, 40),
     email: cleanText(payload.email, 200),
-    business_type: cleanText(payload.business_type, 120),
+    business_type: cleanText(payload.business_type || payload.company, 120),
     service_area: cleanText(payload.service_area, 120),
-    goal: cleanText(payload.goal, 40),
+    goal: cleanText(payload.goal || payload.service, 40),
     platforms: normalizeArray(payload.platforms),
     locations_count: payload.locations_count ? Number(payload.locations_count) : null,
     weekly_volume: payload.weekly_volume ? Number(payload.weekly_volume) : null,
@@ -173,7 +177,15 @@ exports.handler = async (event) => {
       await logEvent(client, {
         leadId: savedLead.id,
         eventType: 'lead_created',
-        payload: { source_page: lead.source_page }
+        payload: {
+          source_page: lead.source_page,
+          goal: lead.goal,
+          tags: lead.tags,
+          utm_source: lead.utm_source,
+          utm_medium: lead.utm_medium,
+          utm_campaign: lead.utm_campaign,
+          gclid: lead.gclid
+        }
       });
 
       await sendTemplateMessages(client, savedLead, ['new_lead']);
