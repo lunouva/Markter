@@ -212,8 +212,53 @@ if (leadForm) {
         return;
       }
 
+      let leadId = null;
+      try {
+        const data = await response.json();
+        leadId = data && data.lead_id ? String(data.lead_id) : null;
+      } catch (e) {
+        // Non-JSON response; ignore.
+      }
+
       leadForm.reset();
-      statusEl.textContent = 'Thanks. We will confirm within one business hour.';
+
+      // Conversion assist: immediately offer the fastest next step.
+      // (If the user is ready now, a live call converts better than waiting for follow-up.)
+      statusEl.innerHTML = '';
+      const wrapper = document.createElement('div');
+      const msg = document.createElement('div');
+      msg.textContent = 'Thanks — received. Fastest next step: call now to lock a time.';
+      wrapper.appendChild(msg);
+
+      const actions = document.createElement('div');
+      actions.style.display = 'flex';
+      actions.style.gap = '12px';
+      actions.style.flexWrap = 'wrap';
+      actions.style.marginTop = '12px';
+
+      const callLink = document.createElement('a');
+      callLink.className = 'btn btn-primary';
+      callLink.href = 'tel:+13125550186';
+      callLink.textContent = 'Call now';
+
+      const emailLink = document.createElement('a');
+      emailLink.className = 'btn btn-outline';
+      emailLink.href = 'mailto:hello@markter.co?subject=' + encodeURIComponent('Markter follow-up') + (leadId ? '&body=' + encodeURIComponent('Lead ID: ' + leadId) : '');
+      emailLink.textContent = 'Or email us';
+
+      actions.appendChild(callLink);
+      actions.appendChild(emailLink);
+      wrapper.appendChild(actions);
+
+      if (leadId) {
+        const meta = document.createElement('div');
+        meta.style.marginTop = '10px';
+        meta.style.opacity = '0.8';
+        meta.textContent = `Reference: ${leadId}`;
+        wrapper.appendChild(meta);
+      }
+
+      statusEl.appendChild(wrapper);
     } catch (error) {
       statusEl.textContent = 'Something went wrong. Please call or try again.';
     } finally {
