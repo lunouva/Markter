@@ -84,6 +84,16 @@ if (leadForm) {
     // Default form select value to avoid friction when the user just wants "Start free".
     const serviceSelect = leadForm.querySelector('select[name="service"]');
 
+    // Allow landing pages to pre-select the service via query param.
+    // Example: /contact?intent=service&service=Paid%20Search
+    const serviceParam = String(searchParams.get('service') || '').trim();
+    if (serviceParam && serviceSelect && !serviceSelect.value) {
+      const match = Array.from(serviceSelect.options).find((opt) =>
+        String(opt.value).trim().toLowerCase() === serviceParam.toLowerCase()
+      );
+      if (match) serviceSelect.value = match.value;
+    }
+
     if ((intent === 'hobby' || intent === 'pro') && serviceSelect && !serviceSelect.value) {
       // Pick a reasonable default so the required field doesn't block the wedge CTA.
       // (User can still change it.)
