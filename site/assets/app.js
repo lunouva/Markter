@@ -180,7 +180,9 @@ if (leadForm) {
       urgency: '',
       callback_window: '',
       consent_flag: true,
-      source_page: window.location.pathname,
+      // Include full URL so UTM + intent context is visible in the lead record.
+      // (Backend also has fallbacks, but capturing it here is the most reliable.)
+      source_page: window.location.href,
       utm_source: searchParams.get('utm_source'),
       utm_medium: searchParams.get('utm_medium'),
       utm_campaign: searchParams.get('utm_campaign'),

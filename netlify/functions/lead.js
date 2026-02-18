@@ -14,6 +14,26 @@ function isValidPhone(phone) {
   return digits.length >= 10;
 }
 
+function hydrateAttribution(payload, event) {
+  const hydrated = { ...(payload || {}) };
+  const q = event && event.queryStringParameters ? event.queryStringParameters : {};
+  const headers = (event && event.headers) || {};
+
+  // If a client forgets to pass UTM params in JSON, allow them via query string.
+  // (This is especially helpful for simple forms / third-party clients.)
+  const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid'];
+  for (const key of utmKeys) {
+    if (!hydrated[key] && q && q[key]) hydrated[key] = q[key];
+  }
+
+  // Prefer explicit source_page from client, but fall back to Referer when missing.
+  if (!hydrated.source_page) {
+    hydrated.source_page = headers.referer || headers.Referer || null;
+  }
+
+  return hydrated;
+}
+
 function sanitizeLead(payload) {
   // Accept both the "chatbot" payload fields and the simpler contact form fields.
   // Contact form uses: company, website_url, service, notes.
@@ -118,7 +138,8 @@ exports.handler = async (event) => {
     return jsonResponse(200, { status: 'ok' });
   }
 
-  const lead = sanitizeLead(payload);
+  const hydratedPayload = hydrateAttribution(payload, event);
+  const lead = sanitizeLead(hydratedPayload);
   if (!lead.name || !lead.phone || !lead.email) {
     return jsonResponse(400, { error: 'Missing required fields' });
   }
