@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pricing - Markter</title>
-  <meta name="description" content="Simple plans to capture leads, follow up fast, and track outcomes." />
+  <title>Markter Pricing - Start free, upgrade when it pays for itself</title>
+  <meta name="description" content="Simple plans for lead capture, follow-up, and conversion. Start free with Hobby, upgrade to Pro for SMS and automation, or work with Markter Managed for done-for-you growth." />
   <link rel="stylesheet" href="assets/styles.css" />
 </head>
 <body class="page">
@@ -16,92 +16,98 @@
         <a href="services.html">Services</a>
         <a href="results.html">Results</a>
         <a href="about.html">About</a>
-        <a href="pricing.html">Pricing</a>
+        <a href="pricing.html" aria-current="page">Pricing</a>
         <a href="/contact">Contact</a>
       </nav>
       <button class="mobile-toggle" data-nav-toggle>Menu</button>
       <div class="nav-actions">
-        <a class="btn btn-outline" href="tel:+13125550186">Call now</a>
+        <a class="btn btn-outline" href="/contact?intent=hobby">Start free</a>
         <a class="btn btn-primary" href="/contact?intent=service">Book a growth call</a>
       </div>
     </div>
   </header>
 
   <main>
-    <section class="container hero">
+    <section class="container hero" style="padding-bottom: 10px;">
       <div class="reveal">
-        <div class="kicker">Pricing</div>
-        <h1>Start free. Upgrade when texting and automation pays for itself.</h1>
-        <p>Markter is a lead inbox + follow-up system. The free plan gets you capturing and tracking leads; Pro adds SMS and faster conversion.</p>
-        <div class="nav-actions">
-          <a class="btn btn-primary" href="/contact?intent=hobby">Start free (Hobby)</a>
-          <a class="btn btn-outline" href="/contact?intent=service">Book a growth call</a>
+        <div class="kicker">Simple plans</div>
+        <h1>Start free. Upgrade when it pays for itself.</h1>
+        <p>Markter is built around one measurable outcome: <strong>more leads that turn into booked jobs</strong>.
+          Hobby helps you capture and reply fast. Pro adds SMS and sequences. Managed is done-for-you growth.</p>
+        <div class="nav-actions" style="margin-top: 16px;">
+          <a class="btn btn-primary" href="/contact?intent=hobby">Start free</a>
+          <a class="btn btn-outline" href="/contact?intent=service">Talk to us</a>
         </div>
-        <div class="notice" style="margin-top: 18px;">Early access is invite-only while we onboard the first users. We’ll reply within one business hour.</div>
       </div>
     </section>
 
     <section class="section">
-      <div class="container grid">
-        <div class="card reveal">
-          <h3>Hobby (Free)</h3>
-          <p><strong>Best for:</strong> capturing leads and staying organized without SMS.</p>
+      <div class="container reveal" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;">
+        <div class="card" style="padding:18px;">
+          <div class="kicker">Hobby (Free)</div>
+          <h2 style="margin:8px 0 6px;">Lead inbox + email follow-up</h2>
+          <p style="margin-top:0;">Perfect for early-stage businesses that need visibility and faster replies.</p>
           <ul class="list">
-            <li>1 user, 1 form</li>
-            <li>Lead inbox + timeline</li>
+            <li>Lead capture (form + contact page)</li>
+            <li>Lead inbox (admin)</li>
             <li>Email notifications + auto-reply</li>
-            <li>UTM/source capture</li>
-            <li>Basic reporting (lead counts, source)</li>
+            <li>Source/UTM capture</li>
           </ul>
-          <a class="btn btn-primary" href="/contact?intent=hobby">Start free</a>
-          <div class="notice">Invite-only to keep support high-touch.</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <a class="btn btn-primary" href="/contact?intent=hobby">Start free</a>
+            <a class="btn btn-outline" href="/contact?intent=hobby&note=invite">Request access</a>
+          </div>
+          <p class="notice" style="margin-top:12px;">Invite-only is fine for the first 10 users. We’ll help you get set up.</p>
         </div>
 
-        <div class="card reveal">
-          <h3>Pro</h3>
-          <p><strong>Best for:</strong> faster response time and higher booked rates via SMS.</p>
+        <div class="card" style="padding:18px; border:1px solid rgba(255,255,255,0.18);">
+          <div class="kicker">Pro</div>
+          <h2 style="margin:8px 0 6px;">SMS + sequences</h2>
+          <p style="margin-top:0;">For teams that win by responding in minutes, not hours.</p>
           <ul class="list">
             <li>Everything in Hobby</li>
-            <li>SMS notifications + sequences</li>
-            <li>Credit-based outbound texting</li>
-            <li>Outcome stages (Contacted → Closed)</li>
+            <li>Two-way SMS (credits)</li>
+            <li>Follow-up sequences (email + SMS)</li>
+            <li>Consent + audit trail</li>
           </ul>
-          <a class="btn btn-outline" href="/contact?intent=pro">Request Pro access</a>
-          <div class="notice">SMS requires consent language + auditing.</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <a class="btn btn-primary" href="/contact?intent=pro">Join the Pro waitlist</a>
+            <a class="btn btn-outline" href="/contact?intent=pro&note=demo">Get a demo</a>
+          </div>
+          <p class="notice" style="margin-top:12px;">Pro is rolling out in phases. We’ll prioritize users with real lead volume.</p>
         </div>
 
-        <div class="card reveal">
-          <h3>Business (Managed)</h3>
-          <p><strong>Best for:</strong> owners who want calls and orders without managing ads.</p>
+        <div class="card" style="padding:18px;">
+          <div class="kicker">Markter Managed</div>
+          <h2 style="margin:8px 0 6px;">Done-for-you growth</h2>
+          <p style="margin-top:0;">If you want calls and orders without hiring an internal team.</p>
           <ul class="list">
-            <li>Google Ads management + landing fixes</li>
-            <li>Lead tracking + follow-up playbook</li>
-            <li>Clear reporting tied to outcomes</li>
+            <li>Google Ads management</li>
+            <li>Landing page / conversion fixes</li>
+            <li>Tracking + reporting</li>
+            <li>10-Day Results Assurance (engagement-based)</li>
           </ul>
-          <a class="btn btn-outline" href="/contact?intent=service">Book a growth call</a>
-          <div class="notice">Includes 10-Day Results Assurance (engagement-based).</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <a class="btn btn-primary" href="/contact?intent=service">Book a growth call</a>
+            <a class="btn btn-outline" href="services.html">See services</a>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="section">
-      <div class="container">
-        <div class="section-title reveal">
-          <h2>What happens after you submit?</h2>
-          <p>We’ll confirm fit, provision access (invite-only), and help you go live fast.</p>
-        </div>
-        <div class="highlight reveal">
-          <div class="badge">Onboarding</div>
-          <p>Submit → confirm intent → connect your form → verify leads land in the inbox → turn on notifications → ship.</p>
-        </div>
+      <div class="container reveal highlight">
+        <strong>Not sure which path fits?</strong>
+        <span>Tell us your business and lead volume. We’ll recommend the fastest option to get to booked work.</span>
+        <a class="btn btn-outline" href="/contact?intent=service">Talk to Markter</a>
       </div>
     </section>
   </main>
 
   <div class="action-bar">
     <div class="container">
-      <div class="action-text">Want the fastest path to more calls and orders? Book a growth call and we’ll map the next 10 days.</div>
-      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+      <div class="action-text">Hobby is free. Pro adds texting. Managed is done-for-you growth.</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
         <a class="btn btn-outline" href="/contact?intent=hobby">Start free</a>
         <a class="btn btn-primary" href="/contact?intent=service">Book a growth call</a>
       </div>
@@ -122,6 +128,7 @@
         <p><a href="results.html">Results</a></p>
         <p><a href="pricing.html">Pricing</a></p>
         <p><a href="app.html">Markter Ops</a></p>
+        <p><a href="chatbot.html">Intake System</a></p>
       </div>
       <div>
         <strong>Trust</strong>
