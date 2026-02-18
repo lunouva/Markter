@@ -37,8 +37,19 @@ function hydrateAttribution(payload, event) {
 function sanitizeLead(payload) {
   // Accept both the "chatbot" payload fields and the simpler contact form fields.
   // Contact form uses: company, website_url, service, notes.
-  // We persist those primarily into transcript/tags, and also map company → business_type
-  // so the admin list has immediate context.
+  // Keep it schema-light: store extra context in transcript so it shows up in the admin.
+
+  const transcript = Array.isArray(payload.transcript) ? [...payload.transcript] : [];
+  const websiteUrl = cleanText(payload.website_url, 300);
+  const notes = cleanText(payload.notes, 2000);
+
+  if (websiteUrl) {
+    transcript.push({ role: 'lead', type: 'intake', key: 'website_url', text: websiteUrl, at: new Date().toISOString() });
+  }
+  if (notes) {
+    transcript.push({ role: 'lead', type: 'intake', key: 'notes', text: notes, at: new Date().toISOString() });
+  }
+
   return {
     name: cleanText(payload.name, 120),
     phone: cleanText(payload.phone, 40),
@@ -59,7 +70,7 @@ function sanitizeLead(payload) {
     utm_term: cleanText(payload.utm_term, 120),
     utm_content: cleanText(payload.utm_content, 120),
     gclid: cleanText(payload.gclid, 120),
-    transcript: Array.isArray(payload.transcript) ? payload.transcript : [],
+    transcript,
     tags: normalizeArray(payload.tags)
   };
 }
