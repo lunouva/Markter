@@ -5,12 +5,14 @@
   "description": "Markter marketing site with chatbot and admin CRM",
   "scripts": {
     "format": "echo \"No formatter configured\"",
-    "check": "node --check netlify/functions/health.js && node --check netlify/functions/lead.js && node --check netlify/functions/followup.js && node --check netlify/functions/admin/whoami.js && node --check netlify/functions/admin/leads.js && node --check netlify/functions/admin/lead.js && node --check netlify/functions/admin/templates.js && node --check netlify/functions/admin/messages.js && node --check netlify/functions/admin/audit.js && node --check netlify/functions/lib/auth.js && node --check netlify/functions/lib/db.js && node --check netlify/functions/lib/events.js && node --check netlify/functions/lib/messaging.js && node --check netlify/functions/lib/security.js && node --check netlify/functions/lib/templates.js && node --check netlify/functions/lib/utils.js",
+    "check": "node --check netlify/functions/health.js && node --check netlify/functions/lead.js && node --check netlify/functions/followup.js && node --check netlify/functions/admin/whoami.js && node --check netlify/functions/admin/leads.js && node --check netlify/functions/admin/lead.js && node --check netlify/functions/admin/templates.js && node --check netlify/functions/admin/messages.js && node --check netlify/functions/admin/audit.js && node --check netlify/functions/lib/auth.js && node --check netlify/functions/lib/db.js && node --check netlify/functions/lib/events.js && node --check netlify/functions/lib/messaging.js && node --check netlify/functions/lib/security.js && node --check netlify/functions/lib/templates.js && node --check netlify/functions/lib/utils.js && node --check netlify/functions/lib/agentmail.js",
+    "agentmail:smoke": "node scripts/agentmail-smoke.js",
     "migrate": "psql \"$DATABASE_URL\" -f db/migrations/001_init.sql"
   },
   "dependencies": {
-    "jwks-rsa": "3.1.0",
+    "agentmail": "^0.2.17",
     "jsonwebtoken": "9.0.2",
+    "jwks-rsa": "3.1.0",
     "pg": "8.11.5"
   }
 }
