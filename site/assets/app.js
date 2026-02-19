@@ -65,6 +65,36 @@ if (revealItems.length) {
   revealItems.forEach((item) => observer.observe(item));
 }
 
+function track(eventType, payload) {
+  try {
+    const body = JSON.stringify({
+      event_type: eventType,
+      path: window.location.pathname,
+      source_page: window.location.href,
+      intent: new URLSearchParams(window.location.search).get('intent') || null,
+      payload
+    });
+
+    if (navigator.sendBeacon) {
+      const blob = new Blob([body], { type: 'application/json' });
+      navigator.sendBeacon('/api/track', blob);
+      return;
+    }
+
+    fetch('/api/track', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body,
+      keepalive: true
+    }).catch(() => {});
+  } catch (e) {
+    // ignore
+  }
+}
+
+// Minimal, conversion-focused analytics (stored in Postgres via /api/track)
+track('page_view', { title: document.title });
+
 const leadForm = document.querySelector('[data-lead-form]');
 if (leadForm) {
   // Personalize the contact page based on intent query param.
@@ -229,6 +259,8 @@ if (leadForm) {
       } catch (e) {
         // Non-JSON response; ignore.
       }
+
+      track('lead_submit_success', { lead_id: leadId || null, intent });
 
       leadForm.reset();
 
