@@ -8,6 +8,66 @@
   status = 301
 
 [[redirects]]
+  from = "/pricing"
+  to = "/pricing.html"
+  status = 301
+
+[[redirects]]
+  from = "/services"
+  to = "/services.html"
+  status = 301
+
+[[redirects]]
+  from = "/results"
+  to = "/results.html"
+  status = 301
+
+[[redirects]]
+  from = "/about"
+  to = "/about.html"
+  status = 301
+
+[[redirects]]
+  from = "/chatbot"
+  to = "/chatbot.html"
+  status = 301
+
+[[redirects]]
+  from = "/app"
+  to = "/app.html"
+  status = 301
+
+[[redirects]]
+  from = "/privacy"
+  to = "/privacy.html"
+  status = 301
+
+[[redirects]]
+  from = "/terms"
+  to = "/terms.html"
+  status = 301
+
+[[redirects]]
+  from = "/google-ads"
+  to = "/google-ads.html"
+  status = 301
+
+[[redirects]]
+  from = "/lead-capture-crm"
+  to = "/lead-capture-crm.html"
+  status = 301
+
+[[redirects]]
+  from = "/delivery-ads"
+  to = "/delivery-ads.html"
+  status = 301
+
+[[redirects]]
+  from = "/ordering-optimization"
+  to = "/ordering-optimization.html"
+  status = 301
+
+[[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
