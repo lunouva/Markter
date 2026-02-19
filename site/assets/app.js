@@ -95,6 +95,30 @@ function track(eventType, payload) {
 // Minimal, conversion-focused analytics (stored in Postgres via /api/track)
 track('page_view', { title: document.title });
 
+// Track CTA clicks (opt-in via data attributes)
+// Usage: <a data-track="cta_click" data-track-label="nav_start_free" ...>
+;(() => {
+  document.addEventListener(
+    'click',
+    (e) => {
+      const el = e.target && e.target.closest ? e.target.closest('[data-track]') : null;
+      if (!el) return;
+
+      const eventType = String(el.getAttribute('data-track') || '').trim();
+      if (!eventType) return;
+
+      const label = el.getAttribute('data-track-label');
+      const href = el.getAttribute('href');
+      track(eventType, {
+        label: label || null,
+        href: href || null,
+        text: (el.textContent || '').trim().slice(0, 120) || null
+      });
+    },
+    { capture: true }
+  );
+})();
+
 const leadForm = document.querySelector('[data-lead-form]');
 if (leadForm) {
   // Personalize the contact page based on intent query param.
@@ -282,11 +306,15 @@ if (leadForm) {
       callLink.className = 'btn btn-primary';
       callLink.href = 'tel:+13125550186';
       callLink.textContent = 'Call now';
+      callLink.setAttribute('data-track', 'cta_click');
+      callLink.setAttribute('data-track-label', 'lead_thankyou_call_now');
 
       const emailLink = document.createElement('a');
       emailLink.className = 'btn btn-outline';
       emailLink.href = 'mailto:hello@markter.co?subject=' + encodeURIComponent('Markter follow-up') + (leadId ? '&body=' + encodeURIComponent('Lead ID: ' + leadId) : '');
       emailLink.textContent = 'Or email us';
+      emailLink.setAttribute('data-track', 'cta_click');
+      emailLink.setAttribute('data-track-label', 'lead_thankyou_email');
 
       actions.appendChild(callLink);
       actions.appendChild(emailLink);
