@@ -227,8 +227,10 @@ leadForms.forEach((form) => {
     const formGoal = String(formData.get('goal') || form.dataset.goal || '').trim();
     const goal = formGoal || defaultGoalFromIntent(intent);
 
+    // Compliance: default to NO SMS consent unless user explicitly opts in.
+    // (Forms should include a checkbox named `consent_flag` when texting is desired.)
     const consentFlagRaw = formData.get('consent_flag');
-    const consentFlag = consentFlagRaw === null ? true : Boolean(consentFlagRaw);
+    const consentFlag = consentFlagRaw === null ? false : Boolean(consentFlagRaw);
 
     const tags = ['lead_form'];
     const formKey = String(form.dataset.formKey || '').trim();
@@ -252,6 +254,7 @@ leadForms.forEach((form) => {
     if (urgency) transcript.push({ role: 'form', text: `Urgency: ${urgency}` });
     if (callbackWindow) transcript.push({ role: 'form', text: `Callback window: ${callbackWindow}` });
     if (notes) transcript.push({ role: 'form', text: `Notes: ${notes}` });
+    transcript.push({ role: 'form', text: `SMS consent: ${consentFlag ? 'yes' : 'no'}` });
 
     const payload = {
       name: String(formData.get('name') || '').trim(),
