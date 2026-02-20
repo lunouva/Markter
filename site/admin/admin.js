@@ -7,7 +7,17 @@ const state = {
   selectedLead: null
 };
 
-const stages = ['New', 'Contacted', 'Booked', 'Won', 'Lost', 'Nurture'];
+// Stages are stored as free-text in Postgres (leads.stage).
+// Keep the UI stages aligned with the funnel Kyle wants:
+// Contacted → Qualified → Booked → Closed/Lost.
+// Back-compat: older data may contain "Won"; treat it as "Closed" in the UI.
+const stages = ['New', 'Contacted', 'Qualified', 'Booked', 'Closed', 'Lost', 'Nurture'];
+
+function normalizeStageForUi(stage) {
+  if (!stage) return 'New';
+  if (stage === 'Won') return 'Closed';
+  return stage;
+}
 
 const elements = {
   auth: document.getElementById('admin-auth'),
@@ -100,11 +110,11 @@ function renderPipeline() {
   stages.forEach((stage) => {
     const column = document.createElement('div');
     column.className = 'pipeline-column';
-    const count = state.leads.filter((lead) => lead.stage === stage).length;
+    const count = state.leads.filter((lead) => normalizeStageForUi(lead.stage) === stage).length;
     column.innerHTML = `<h4>${stage} <span>${count}</span></h4>`;
 
     state.leads
-      .filter((lead) => lead.stage === stage)
+      .filter((lead) => normalizeStageForUi(lead.stage) === stage)
       .forEach((lead) => {
         const card = document.createElement('div');
         card.className = 'lead-card';
@@ -144,6 +154,7 @@ function renderLeadDetail() {
   elements.leadDetail.classList.remove('is-hidden');
 
   const lead = data.lead;
+  const leadStageUi = normalizeStageForUi(lead.stage);
   const transcriptHtml = (lead.transcript || []).map((item) => {
     const role = item.role === 'agent' ? 'agent' : 'visitor';
     return `<div class="chat-bubble ${role}">${item.text}</div>`;
@@ -171,7 +182,7 @@ function renderLeadDetail() {
         <div class="admin-actions">
           <label>Stage
             <select id="lead-stage">
-              ${stages.map((stage) => `<option value="${stage}" ${lead.stage === stage ? 'selected' : ''}>${stage}</option>`).join('')}
+              ${stages.map((stage) => `<option value="${stage}" ${leadStageUi === stage ? 'selected' : ''}>${stage}</option>`).join('')}
             </select>
           </label>
           <label>Tags (comma separated)
