@@ -34,6 +34,7 @@
       <nav class="admin-nav">
         <button class="admin-tab is-active" data-view="pipeline">Pipeline</button>
         <button class="admin-tab" data-view="lead">Lead detail</button>
+        <button class="admin-tab" data-view="analytics">Analytics</button>
         <button class="admin-tab" data-view="templates">Templates</button>
         <button class="admin-tab" data-view="audit">Audit log</button>
       </nav>
@@ -49,6 +50,32 @@
       <section id="view-lead" class="admin-view is-hidden">
         <div id="lead-empty" class="admin-card">Select a lead to view details.</div>
         <div id="lead-detail" class="is-hidden"></div>
+      </section>
+
+      <section id="view-analytics" class="admin-view is-hidden">
+        <div class="admin-view-header">
+          <h2>Analytics (last <span id="analytics-days">14</span> days)</h2>
+          <div style="display:flex; gap: 10px; align-items: center;">
+            <label style="display:flex; gap:8px; align-items:center;">Days
+              <select id="analytics-range">
+                <option value="7">7</option>
+                <option value="14" selected>14</option>
+                <option value="30">30</option>
+              </select>
+            </label>
+            <button class="btn btn-outline" id="refresh-analytics">Refresh</button>
+          </div>
+        </div>
+        <div class="template-grid">
+          <div class="admin-card">
+            <h3>Totals</h3>
+            <div id="analytics-totals"></div>
+          </div>
+          <div class="admin-card">
+            <h3>CTA clicks (top)</h3>
+            <div id="analytics-cta"></div>
+          </div>
+        </div>
       </section>
 
       <section id="view-templates" class="admin-view is-hidden">

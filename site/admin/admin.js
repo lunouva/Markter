@@ -36,7 +36,12 @@ const elements = {
   templateForm: document.getElementById('template-form'),
   templateList: document.getElementById('template-list'),
   auditList: document.getElementById('audit-list'),
-  refreshAudit: document.getElementById('refresh-audit')
+  refreshAudit: document.getElementById('refresh-audit'),
+  analyticsDays: document.getElementById('analytics-days'),
+  analyticsRange: document.getElementById('analytics-range'),
+  refreshAnalytics: document.getElementById('refresh-analytics'),
+  analyticsTotals: document.getElementById('analytics-totals'),
+  analyticsCta: document.getElementById('analytics-cta')
 };
 
 function apiFetch(path, options = {}) {
@@ -336,6 +341,47 @@ async function loadAudit() {
   }).join('') || '<div>No audit activity yet.</div>';
 }
 
+function renderAnalytics(data) {
+  if (!data) {
+    elements.analyticsTotals.innerHTML = '<div>No data.</div>';
+    elements.analyticsCta.innerHTML = '<div>No data.</div>';
+    return;
+  }
+
+  if (elements.analyticsDays) {
+    elements.analyticsDays.textContent = String(data.days || 14);
+  }
+
+  const totals = Array.isArray(data.totals) ? data.totals : [];
+  const leadsCreated = Number(data.leads_created || 0);
+
+  const totalsHtml = [
+    `<div class="audit-item"><strong>Leads created</strong> ? ${leadsCreated}</div>`,
+    ...totals.map((row) => {
+      const name = String(row.event_type || 'unknown').replace(/^anon_/, '');
+      return `<div class="audit-item"><strong>${name}</strong> ? ${row.count}</div>`;
+    })
+  ].join('');
+
+  const ctaRows = Array.isArray(data.cta_clicks) ? data.cta_clicks : [];
+  const ctaHtml = ctaRows.map((row) => {
+    return `<div class="audit-item"><strong>${row.label}</strong> ? ${row.count}</div>`;
+  }).join('') || '<div>No CTA clicks recorded.</div>';
+
+  elements.analyticsTotals.innerHTML = totalsHtml || '<div>No events recorded.</div>';
+  elements.analyticsCta.innerHTML = ctaHtml;
+}
+
+async function loadAnalytics() {
+  const days = elements.analyticsRange ? elements.analyticsRange.value : '14';
+  const response = await apiFetch(`/api/admin/analytics?days=${encodeURIComponent(days)}`);
+  if (!response.ok) {
+    return;
+  }
+  const data = await response.json();
+  renderAnalytics(data);
+}
+
 async function handleTemplateSubmit(event) {
   event.preventDefault();
   const form = event.target;
@@ -378,6 +424,7 @@ function initIdentity() {
     state.user = user;
     await loadWhoami();
     await loadLeads();
+    await loadAnalytics();
     await loadTemplates();
     await loadAudit();
     netlifyIdentity.close();
@@ -396,6 +443,7 @@ function initIdentity() {
     loadWhoami().then(async (data) => {
       if (data) {
         await loadLeads();
+        await loadAnalytics();
         await loadTemplates();
         await loadAudit();
       }
@@ -411,6 +459,12 @@ function bindEvents() {
   elements.refreshLeads.addEventListener('click', loadLeads);
   elements.refreshTemplates.addEventListener('click', loadTemplates);
   elements.refreshAudit.addEventListener('click', loadAudit);
+  if (elements.refreshAnalytics) {
+    elements.refreshAnalytics.addEventListener('click', loadAnalytics);
+  }
+  if (elements.analyticsRange) {
+    elements.analyticsRange.addEventListener('change', loadAnalytics);
+  }
   elements.templateForm.addEventListener('submit', handleTemplateSubmit);
 }
 
