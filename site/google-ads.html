@@ -46,6 +46,73 @@
     </section>
 
     <section class="section">
+      <div class="container">
+        <div class="section-title reveal">
+          <h2>Get a call volume plan (60 seconds).</h2>
+          <p>Tell us what you sell and where you operate. We’ll respond within one business hour with a tight plan + next steps.</p>
+        </div>
+
+        <form class="form reveal" action="/api/lead" method="post" data-lead-form data-intent="service" data-form-key="google_ads_intake" data-service="Google Ads (Calls)" data-goal="growth call" data-tags="service:Google Ads (Calls),sla:60m">
+          <div class="field">
+            <label for="ga-website">Website URL</label>
+            <input id="ga-website" name="website_url" type="url" required />
+          </div>
+          <div class="field">
+            <label for="ga-company">Company / Business</label>
+            <input id="ga-company" name="company" type="text" required />
+          </div>
+          <div class="field">
+            <label for="ga-type">Business type</label>
+            <input id="ga-type" name="business_type" type="text" placeholder="e.g., dentist, plumber, home services" />
+          </div>
+          <div class="field">
+            <label for="ga-area">Service area</label>
+            <input id="ga-area" name="service_area" type="text" placeholder="City / suburbs you want calls from" />
+          </div>
+          <div class="field">
+            <label for="ga-volume">Target calls per week (rough)</label>
+            <input id="ga-volume" name="weekly_volume" type="number" min="0" step="1" placeholder="e.g., 25" />
+          </div>
+          <div class="field">
+            <label for="ga-urgency">Urgency</label>
+            <select id="ga-urgency" name="urgency">
+              <option value="" selected>Choose one</option>
+              <option value="ASAP">ASAP</option>
+              <option value="This month">This month</option>
+              <option value="Next month">Next month</option>
+              <option value="Just exploring">Just exploring</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="ga-notes">Notes (optional)</label>
+            <textarea id="ga-notes" name="notes" rows="4" placeholder="Budget range, what you’ve tried, what counts as a qualified call."></textarea>
+          </div>
+
+          <div class="field">
+            <label for="ga-name">Name</label>
+            <input id="ga-name" name="name" type="text" required />
+          </div>
+          <div class="field">
+            <label for="ga-email">Email</label>
+            <input id="ga-email" name="email" type="email" required />
+          </div>
+          <div class="field">
+            <label for="ga-phone">Phone</label>
+            <input id="ga-phone" name="phone" type="tel" required />
+          </div>
+
+          <div class="field" style="display:none;">
+            <label for="ga-hp">Leave this blank</label>
+            <input id="ga-hp" name="hp" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div class="notice">We never sell your data. Every submission is encrypted and access-logged.</div>
+          <button class="btn btn-primary" type="submit">Get Your Free Consultation Now</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="section">
       <div class="container grid">
         <div class="card reveal">
           <h3>Built for call volume.</h3>

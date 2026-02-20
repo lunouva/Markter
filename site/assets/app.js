@@ -119,113 +119,139 @@ track('page_view', { title: document.title });
   );
 })();
 
-const leadForm = document.querySelector('[data-lead-form]');
-if (leadForm) {
+function parseTags(value) {
+  if (!value) return [];
+  return String(value)
+    .split(',')
+    .map((t) => t.trim())
+    .filter(Boolean);
+}
+
+function defaultGoalFromIntent(intent) {
+  if (intent === 'hobby') return 'start free';
+  if (intent === 'pro') return 'pro access';
+  return 'growth call';
+}
+
+function maybePersonalizeContactPage({ form, intent }) {
   // Personalize the contact page based on intent query param.
   // Examples:
   //  - /contact?intent=service (default)
   //  - /contact?intent=hobby
   //  - /contact?intent=pro
-  const intent = String(searchParams.get('intent') || '').trim().toLowerCase();
-  if (intent) {
-    const hero = document.querySelector('.hero');
-    const kickerEl = hero?.querySelector('.kicker');
-    const h1El = hero?.querySelector('h1');
-    const pEl = hero?.querySelector('p');
-    const submitBtn = leadForm.querySelector('button[type="submit"]');
-    const assuranceCard = hero?.querySelector('.assurance-card');
+  const hero = document.querySelector('.hero');
+  if (!hero) return;
 
-    // Default form select value to avoid friction when the user just wants "Start free".
-    const serviceSelect = leadForm.querySelector('select[name="service"]');
+  const isContactish = window.location.pathname === '/contact' || window.location.pathname.endsWith('/contact/') || window.location.pathname.endsWith('contact.html');
+  if (!isContactish) return;
 
-    // Allow landing pages to pre-select the service via query param.
-    // Example: /contact?intent=service&service=Paid%20Search
-    const serviceParam = String(searchParams.get('service') || '').trim();
-    if (serviceParam && serviceSelect && !serviceSelect.value) {
-      const match = Array.from(serviceSelect.options).find((opt) =>
-        String(opt.value).trim().toLowerCase() === serviceParam.toLowerCase()
-      );
-      if (match) serviceSelect.value = match.value;
-    }
+  const kickerEl = hero?.querySelector('.kicker');
+  const h1El = hero?.querySelector('h1');
+  const pEl = hero?.querySelector('p');
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const assuranceCard = hero?.querySelector('.assurance-card');
 
-    if ((intent === 'hobby' || intent === 'pro') && serviceSelect && !serviceSelect.value) {
-      // Pick a reasonable default so the required field doesn't block the wedge CTA.
-      // (User can still change it.)
-      const fallback = Array.from(serviceSelect.options).find((opt) =>
-        String(opt.value).toLowerCase().includes('not sure')
-      );
-      if (fallback) serviceSelect.value = fallback.value;
-    }
+  // Default form select value to avoid friction when the user just wants "Start free".
+  const serviceSelect = form.querySelector('select[name="service"]');
 
-    if (intent === 'hobby') {
-      if (kickerEl) kickerEl.textContent = 'Start free (Hobby)';
-      if (h1El) h1El.textContent = 'Get your lead inbox set up in a day.';
-      if (pEl) pEl.textContent = 'Answer a few questions and we’ll provision your invite-only access, connect your form, and confirm leads land in your inbox.';
-      if (submitBtn) submitBtn.textContent = 'Request Hobby access';
-      if (assuranceCard) assuranceCard.style.display = 'none';
-    } else if (intent === 'pro') {
-      if (kickerEl) kickerEl.textContent = 'Request Pro access';
-      if (h1El) h1El.textContent = 'Turn leads into booked jobs faster with SMS follow-up.';
-      if (pEl) pEl.textContent = 'Tell us what you sell and where you operate. We’ll confirm fit and provision Pro (invite-only) with consent-friendly texting.';
-      if (submitBtn) submitBtn.textContent = 'Request Pro access';
-      if (assuranceCard) assuranceCard.style.display = 'none';
-    } else if (intent === 'service') {
-      // Keep default service copy.
-    }
+  // Allow landing pages to pre-select the service via query param.
+  // Example: /contact?intent=service&service=Paid%20Search
+  const serviceParam = String(searchParams.get('service') || '').trim();
+  if (serviceParam && serviceSelect && !serviceSelect.value) {
+    const match = Array.from(serviceSelect.options).find((opt) =>
+      String(opt.value).trim().toLowerCase() === serviceParam.toLowerCase()
+    );
+    if (match) serviceSelect.value = match.value;
   }
 
-  let statusEl = leadForm.querySelector('.form-status');
+  if ((intent === 'hobby' || intent === 'pro') && serviceSelect && !serviceSelect.value) {
+    // Pick a reasonable default so the required field doesn't block the wedge CTA.
+    // (User can still change it.)
+    const fallback = Array.from(serviceSelect.options).find((opt) =>
+      String(opt.value).toLowerCase().includes('not sure')
+    );
+    if (fallback) serviceSelect.value = fallback.value;
+  }
+
+  if (intent === 'hobby') {
+    if (kickerEl) kickerEl.textContent = 'Start free (Hobby)';
+    if (h1El) h1El.textContent = 'Get your lead inbox set up in a day.';
+    if (pEl) pEl.textContent = 'Answer a few questions and we’ll provision your invite-only access, connect your form, and confirm leads land in your inbox.';
+    if (submitBtn) submitBtn.textContent = 'Request Hobby access';
+    if (assuranceCard) assuranceCard.style.display = 'none';
+  } else if (intent === 'pro') {
+    if (kickerEl) kickerEl.textContent = 'Request Pro access';
+    if (h1El) h1El.textContent = 'Turn leads into booked jobs faster with SMS follow-up.';
+    if (pEl) pEl.textContent = 'Tell us what you sell and where you operate. We’ll confirm fit and provision Pro (invite-only) with consent-friendly texting.';
+    if (submitBtn) submitBtn.textContent = 'Request Pro access';
+    if (assuranceCard) assuranceCard.style.display = 'none';
+  }
+}
+
+const leadForms = document.querySelectorAll('[data-lead-form]');
+leadForms.forEach((form) => {
+  const urlIntent = String(searchParams.get('intent') || '').trim().toLowerCase();
+  const intent = String(form.dataset.intent || urlIntent || '').trim().toLowerCase();
+
+  maybePersonalizeContactPage({ form, intent });
+
+  let statusEl = form.querySelector('.form-status');
   if (!statusEl) {
     statusEl = document.createElement('div');
     statusEl.className = 'notice form-status';
     statusEl.setAttribute('role', 'status');
-    leadForm.appendChild(statusEl);
+    form.appendChild(statusEl);
   }
 
-  const submitButton = leadForm.querySelector('button[type="submit"]');
+  const submitButton = form.querySelector('button[type="submit"]');
 
-  leadForm.addEventListener('submit', async (event) => {
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
     statusEl.textContent = '';
 
-    const formData = new FormData(leadForm);
+    const formData = new FormData(form);
+
     const websiteUrl = String(formData.get('website_url') || '').trim();
     const companyName = String(formData.get('company') || '').trim();
-    const serviceName = String(formData.get('service') || '').trim();
+    const serviceName = String(formData.get('service') || form.dataset.service || '').trim();
     const notes = String(formData.get('notes') || '').trim();
     const hpValue = String(formData.get('hp') || '').trim();
 
-    const intent = String(searchParams.get('intent') || '').trim().toLowerCase();
+    const businessType = String(formData.get('business_type') || '').trim();
+    const serviceArea = String(formData.get('service_area') || '').trim();
+    const weeklyVolume = String(formData.get('weekly_volume') || '').trim();
+    const locationsCount = String(formData.get('locations_count') || '').trim();
+    const urgency = String(formData.get('urgency') || '').trim();
+    const callbackWindow = String(formData.get('callback_window') || '').trim();
 
-    const tags = ['contact_form'];
-    if (intent) {
-      tags.push(`intent:${intent}`);
-    }
-    if (websiteUrl) {
-      tags.push(`website:${websiteUrl}`);
-    }
-    if (companyName) {
-      tags.push(`company:${companyName}`);
-    }
-    if (serviceName) {
-      tags.push(`service:${serviceName}`);
-    }
+    const formGoal = String(formData.get('goal') || form.dataset.goal || '').trim();
+    const goal = formGoal || defaultGoalFromIntent(intent);
+
+    const consentFlagRaw = formData.get('consent_flag');
+    const consentFlag = consentFlagRaw === null ? true : Boolean(consentFlagRaw);
+
+    const tags = ['lead_form'];
+    const formKey = String(form.dataset.formKey || '').trim();
+    if (formKey) tags.push(`form:${formKey}`);
+    if (intent) tags.push(`intent:${intent}`);
+
+    parseTags(form.dataset.tags).forEach((t) => tags.push(t));
+
+    if (websiteUrl) tags.push(`website:${websiteUrl}`);
+    if (companyName) tags.push(`company:${companyName}`);
+    if (serviceName) tags.push(`service:${serviceName}`);
 
     const transcript = [];
-    if (websiteUrl) {
-      transcript.push({ role: 'form', text: `Website URL: ${websiteUrl}` });
-    }
-    if (companyName) {
-      transcript.push({ role: 'form', text: `Company / Business: ${companyName}` });
-    }
-    if (serviceName) {
-      transcript.push({ role: 'form', text: `Service interest: ${serviceName}` });
-    }
-    if (notes) {
-      transcript.push({ role: 'form', text: `Notes: ${notes}` });
-    }
-
-    const goal = intent === 'hobby' ? 'start free' : intent === 'pro' ? 'pro access' : 'growth call';
+    if (websiteUrl) transcript.push({ role: 'form', text: `Website URL: ${websiteUrl}` });
+    if (companyName) transcript.push({ role: 'form', text: `Company / Business: ${companyName}` });
+    if (serviceName) transcript.push({ role: 'form', text: `Service interest: ${serviceName}` });
+    if (businessType) transcript.push({ role: 'form', text: `Business type: ${businessType}` });
+    if (serviceArea) transcript.push({ role: 'form', text: `Service area: ${serviceArea}` });
+    if (weeklyVolume) transcript.push({ role: 'form', text: `Weekly volume: ${weeklyVolume}` });
+    if (locationsCount) transcript.push({ role: 'form', text: `Locations: ${locationsCount}` });
+    if (urgency) transcript.push({ role: 'form', text: `Urgency: ${urgency}` });
+    if (callbackWindow) transcript.push({ role: 'form', text: `Callback window: ${callbackWindow}` });
+    if (notes) transcript.push({ role: 'form', text: `Notes: ${notes}` });
 
     const payload = {
       name: String(formData.get('name') || '').trim(),
@@ -235,17 +261,15 @@ if (leadForm) {
       website_url: websiteUrl,
       service: serviceName,
       notes,
-      business_type: '',
-      service_area: '',
+      business_type: businessType,
+      service_area: serviceArea,
       goal,
-      platforms: [],
-      locations_count: null,
-      weekly_volume: null,
-      urgency: '',
-      callback_window: '',
-      consent_flag: true,
-      // Include full URL so UTM + intent context is visible in the lead record.
-      // (Backend also has fallbacks, but capturing it here is the most reliable.)
+      platforms: formData.getAll('platforms').length ? formData.getAll('platforms') : String(formData.get('platforms') || ''),
+      locations_count: locationsCount ? Number(locationsCount) : null,
+      weekly_volume: weeklyVolume ? Number(weeklyVolume) : null,
+      urgency,
+      callback_window: callbackWindow,
+      consent_flag: consentFlag,
       source_page: window.location.href,
       utm_source: searchParams.get('utm_source'),
       utm_medium: searchParams.get('utm_medium'),
@@ -258,16 +282,12 @@ if (leadForm) {
       hp: hpValue
     };
 
-    if (submitButton) {
-      submitButton.disabled = true;
-    }
+    if (submitButton) submitButton.disabled = true;
 
     try {
       const response = await fetch('/api/lead', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
 
@@ -281,15 +301,14 @@ if (leadForm) {
         const data = await response.json();
         leadId = data && data.lead_id ? String(data.lead_id) : null;
       } catch (e) {
-        // Non-JSON response; ignore.
+        // ignore
       }
 
-      track('lead_submit_success', { lead_id: leadId || null, intent });
+      track('lead_submit_success', { lead_id: leadId || null, intent, form_key: formKey || null, goal });
 
-      leadForm.reset();
+      form.reset();
 
       // Conversion assist: immediately offer the fastest next step.
-      // (If the user is ready now, a live call converts better than waiting for follow-up.)
       statusEl.innerHTML = '';
       const wrapper = document.createElement('div');
       const msg = document.createElement('div');
@@ -332,9 +351,7 @@ if (leadForm) {
     } catch (error) {
       statusEl.textContent = 'Something went wrong. Please call or try again.';
     } finally {
-      if (submitButton) {
-        submitButton.disabled = false;
-      }
+      if (submitButton) submitButton.disabled = false;
     }
   });
-}
+});
