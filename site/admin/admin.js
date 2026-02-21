@@ -120,13 +120,21 @@ function renderPipeline() {
 
     state.leads
       .filter((lead) => normalizeStageForUi(lead.stage) === stage)
+      .sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0))
       .forEach((lead) => {
         const card = document.createElement('div');
         card.className = 'lead-card';
+
+        const createdAt = lead.created_at ? new Date(lead.created_at) : null;
+        const createdLabel = createdAt ? createdAt.toLocaleString() : '';
+
+        const subtitleParts = [lead.business_type, lead.goal, lead.urgency].filter(Boolean);
+        const subtitle = subtitleParts.join(' • ');
+
         card.innerHTML = `
           <strong>${lead.name || 'Unknown'}</strong>
-          <span>${lead.business_type || ''}</span>
-          <span>${lead.goal || ''} ? ${lead.urgency || ''}</span>
+          <span>${subtitle}</span>
+          ${createdLabel ? `<small>${createdLabel}</small>` : ''}
         `;
         card.addEventListener('click', () => loadLead(lead.id));
         column.appendChild(card);
